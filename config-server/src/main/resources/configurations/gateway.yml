@@ -14,18 +14,18 @@ spring:
       mvc:
         routes:
           - id: orders
-            uri: http://localhost:8071
+            uri: lb://orders
             predicates:
               - Path=/api/v1/orders/**
           - id: payments
-            uri: http://localhost:8072
+            uri: lb://payments
             predicates:
               - Path=/api/v1/payments/**
           - id: restaurants
-            uri: http://localhost:8070
+            uri: lb://restaurants
             predicates:
               - Path=/api/v1/restaurants/**
           - id: reviews
-            uri: http://localhost:8073
+            uri: lb://reviews
             predicates:
               - Path=/api/v1/reviews/**
