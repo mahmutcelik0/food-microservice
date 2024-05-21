@@ -29,3 +29,7 @@ spring:
             uri: lb://reviews
             predicates:
               - Path=/api/v1/reviews/**
+          - id: users
+            uri: lb://users
+            predicates:
+              - Path=/api/v1/users/**
