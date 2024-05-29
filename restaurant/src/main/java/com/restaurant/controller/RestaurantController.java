@@ -1,6 +1,9 @@
 package com.restaurant.controller;
 
 import com.restaurant.dto.RestaurantDto;
+import com.restaurant.dto.request.CategoryRequest;
+import com.restaurant.exception.CategoryNotFoundException;
+import com.restaurant.exception.RestaurantNotFoundException;
 import com.restaurant.model.ResponseMessage;
 import com.restaurant.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,11 @@ public class RestaurantController {
     @PostMapping
     public ResponseEntity<ResponseMessage> saveRestaurant(@RequestBody RestaurantDto restaurantDto) {
         return restaurantService.saveRestaurant(restaurantDto);
+    }
+
+    @PutMapping("/category")
+    public ResponseEntity<ResponseMessage> addNewCategoryToRestaurant(@RequestBody CategoryRequest categoryRequest) throws CategoryNotFoundException, RestaurantNotFoundException {
+        return restaurantService.addNewCategoryToRestaurant(categoryRequest);
     }
 
 
