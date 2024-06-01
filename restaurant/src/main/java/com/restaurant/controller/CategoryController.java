@@ -19,4 +19,5 @@ public class CategoryController {
     public ResponseEntity<ResponseMessage> createCategory(@RequestParam String categoryName){
         return categoryService.createCategory(categoryName);
     }
+
 }

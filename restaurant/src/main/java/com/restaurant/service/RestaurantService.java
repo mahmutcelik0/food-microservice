@@ -1,5 +1,6 @@
 package com.restaurant.service;
 
+import com.restaurant.dto.CategoryDto;
 import com.restaurant.dto.RestaurantDto;
 import com.restaurant.dto.request.CategoryRequest;
 import com.restaurant.entity.Category;
@@ -8,6 +9,7 @@ import com.restaurant.exception.CategoryNotFoundException;
 import com.restaurant.exception.RestaurantNotFoundException;
 import com.restaurant.model.CustomResponseMessages;
 import com.restaurant.model.ResponseMessage;
+import com.restaurant.populator.CategoryDtoPopulator;
 import com.restaurant.populator.RestaurantDtoPopulator;
 import com.restaurant.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantDtoPopulator restaurantDtoPopulator;
     private final CategoryService categoryService;
+    private final CategoryDtoPopulator categoryDtoPopulator;
 
     public List<RestaurantDto> getAllRestaurants() {
         return restaurantDtoPopulator.populateAll(restaurantRepository.findAll());
@@ -45,5 +49,10 @@ public class RestaurantService {
 
     public Restaurant findRestaurantById(Long restaurantId) throws RestaurantNotFoundException {
         return restaurantRepository.findById(restaurantId).orElseThrow(()-> new RestaurantNotFoundException(CustomResponseMessages.RESTAURANT_NOT_FOUND));
+    }
+
+    public Set<CategoryDto> getCategoriesOfRestaurantByCategoryId(Long restaurantId) throws RestaurantNotFoundException {
+        Restaurant restaurant= restaurantRepository.findById(restaurantId).orElseThrow(()->new RestaurantNotFoundException(CustomResponseMessages.RESTAURANT_NOT_FOUND));
+        return categoryDtoPopulator.populateAllSet(restaurant.getCategories());
     }
 }
