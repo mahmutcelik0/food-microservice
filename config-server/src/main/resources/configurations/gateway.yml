@@ -54,3 +54,7 @@ spring:
             - Path=/api/v1/users/**
           filters:
             - AuthenticationFilter
+
+application:
+  config:
+    auth-users-url: http://localhost:8076/auth
