@@ -48,6 +48,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 }
                 try {
                     userServiceClient.validateToken(authHeader);
+
+                    //exchange.getRequest().mutate().header("loggedInUser", username);
+
                 }catch(FeignException fe){
                     throw new AuthException(fe.contentUTF8());
                 }
