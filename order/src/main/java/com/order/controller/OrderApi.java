@@ -1,6 +1,5 @@
 package com.order.controller;
 
-import com.order.dto.OrderDto;
 import com.order.model.request.OrderRequest;
 import com.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,7 @@ public class OrderApi {
 
     @GetMapping
     public ResponseEntity<String> getOrder(@RequestBody OrderRequest orderRequest){
-        return ResponseEntity.ok("");
+        return ResponseEntity.ok("AAA");
     }
 
 
