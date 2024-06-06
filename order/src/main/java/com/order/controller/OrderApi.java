@@ -1,10 +1,17 @@
 package com.order.controller;
 
+import com.order.entity.Order;
+import com.order.exception.OrderNotFoundException;
 import com.order.model.request.OrderRequest;
+import com.order.model.response.OrderResponse;
+import com.order.model.response.UserResponse;
 import com.order.service.OrderService;
+import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -17,10 +24,17 @@ public class OrderApi {
         return orderService.createOrder(orderRequest);
     }
 
-    @GetMapping
-    public ResponseEntity<String> getOrder(@RequestBody OrderRequest orderRequest){
-        return ResponseEntity.ok("AAA");
+    @GetMapping("/order")
+    public ResponseEntity<OrderResponse> getOrderByOrderId(@RequestParam Long orderId) throws OrderNotFoundException {
+        return orderService.getOrderByOrderId(orderId);
     }
+
+    @GetMapping("/restaurant")
+    public List<OrderResponse> getOrdersOfRestaurantById(@RequestParam Long restaurantId){
+        return orderService.getOrdersOfRestaurantById(restaurantId);
+    }
+
+
 
 
 }
