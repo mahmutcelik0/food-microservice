@@ -19,6 +19,12 @@ import java.util.List;
 public class OrderApi {
     private final OrderService orderService;
 
+    @GetMapping
+    public String hello(@RequestHeader("userEmail") String email){
+        return "hello from" + email;
+    }
+
+
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest){
         return orderService.createOrder(orderRequest);
