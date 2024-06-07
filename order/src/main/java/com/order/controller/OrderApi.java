@@ -1,12 +1,9 @@
 package com.order.controller;
 
-import com.order.entity.Order;
 import com.order.exception.OrderNotFoundException;
 import com.order.model.request.OrderRequest;
 import com.order.model.response.OrderResponse;
-import com.order.model.response.UserResponse;
 import com.order.service.OrderService;
-import jakarta.ws.rs.Path;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,24 +17,24 @@ public class OrderApi {
     private final OrderService orderService;
 
     @GetMapping
-    public String hello(@RequestHeader("userEmail") String email){
-        return "hello from" + email;
+    public String hello(@RequestHeader String userEmail){
+        return "hello from" + userEmail;
     }
 
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest){
-        return orderService.createOrder(orderRequest);
+    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest,@RequestHeader String userEmail){
+        return orderService.createOrder(orderRequest,userEmail);
     }
 
     @GetMapping("/order")
-    public ResponseEntity<OrderResponse> getOrderByOrderId(@RequestParam Long orderId) throws OrderNotFoundException {
-        return orderService.getOrderByOrderId(orderId);
+    public ResponseEntity<OrderResponse> getOrderByOrderId(@RequestParam Long orderId,@RequestHeader String userEmail) throws OrderNotFoundException {
+        return orderService.getOrderByOrderId(orderId,userEmail);
     }
 
     @GetMapping("/restaurant")
-    public List<OrderResponse> getOrdersOfRestaurantById(@RequestParam Long restaurantId){
-        return orderService.getOrdersOfRestaurantById(restaurantId);
+    public List<OrderResponse> getOrdersOfRestaurantById(@RequestParam Long restaurantId,@RequestHeader String userEmail){
+        return orderService.getOrdersOfRestaurantById(restaurantId,userEmail);
     }
 
 

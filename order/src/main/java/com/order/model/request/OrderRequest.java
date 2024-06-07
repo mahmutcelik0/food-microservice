@@ -13,9 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderRequest {
     private Long restaurantId;
-    private Long categoryId;
     private List<Long> productIdList;
     private Long totalPrice;
-    private Long userId;
-
 }

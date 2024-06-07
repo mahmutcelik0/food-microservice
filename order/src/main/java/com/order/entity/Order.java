@@ -20,7 +20,6 @@ public class Order {
     private Long id;
 
     private Long restaurantId;
-    private Long categoryId;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
