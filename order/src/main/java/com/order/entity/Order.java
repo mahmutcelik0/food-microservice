@@ -1,11 +1,10 @@
 package com.order.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "ORDERS")
@@ -21,13 +20,9 @@ public class Order {
 
     private Long restaurantId;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "ORDER_PRODUCT_ID",
-            joinColumns = {@JoinColumn(name = "order_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id", referencedColumnName = "id")}
-    )
-    private Set<ProductId> productIdList = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "order")
+    @JsonIgnore
+    private List<Product> productList;
 
     private Long totalPrice;
     private Long userId;

@@ -28,7 +28,7 @@ public class OrderApi {
     }
 
     @GetMapping("/order")
-    public ResponseEntity<OrderResponse> getOrderByOrderId(@RequestParam Long orderId,@RequestHeader String userEmail) throws OrderNotFoundException {
+    public OrderResponse getOrderByOrderId(@RequestParam Long orderId,@RequestHeader String userEmail) throws OrderNotFoundException {
         return orderService.getOrderByOrderId(orderId,userEmail);
     }
 
@@ -37,6 +37,10 @@ public class OrderApi {
         return orderService.getOrdersOfRestaurantById(restaurantId,userEmail);
     }
 
+    @GetMapping("/count/{productId}")
+    public Long getOrderCountByProductId(@PathVariable Long productId){
+        return orderService.getOrderCountByProductId(productId);
+    }
 
 
 
