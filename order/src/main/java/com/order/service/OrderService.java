@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -100,5 +101,10 @@ public class OrderService {
 
     public Long getOrderCountByProductId(Long productId) {
         return productService.getOrderCountByProductId(productId);
+    }
+
+    public List<Long> getProductIdsOfOrder(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow();
+        return order.getProductList().stream().map(Product::getProductId).collect(Collectors.toList());
     }
 }

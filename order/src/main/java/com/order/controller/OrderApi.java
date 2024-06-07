@@ -1,5 +1,7 @@
 package com.order.controller;
 
+import com.order.entity.Order;
+import com.order.entity.Product;
 import com.order.exception.OrderNotFoundException;
 import com.order.model.request.OrderRequest;
 import com.order.model.response.OrderResponse;
@@ -42,6 +44,10 @@ public class OrderApi {
         return orderService.getOrderCountByProductId(productId);
     }
 
+    @GetMapping("productIds")
+    public List<Long> getProductIdsOfOrder(@RequestParam Long orderId){
+        return orderService.getProductIdsOfOrder(orderId);
+    }
 
 
 }
