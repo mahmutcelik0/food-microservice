@@ -20,37 +20,37 @@ public class ReviewService {
     private final OrderReviewRepository repository;
     private final ProductReviewRepository productReviewRepository;
     private final OrderClient orderClient;
-    public void saveReview(CreateReviewRequest reviewRequest){
-        if(!controlOrderIsPaid(reviewRequest.orderId()))
+
+    public void saveReview(CreateReviewRequest reviewRequest) {
+        if (!controlOrderIsPaid(reviewRequest.orderId()))
             throw new RuntimeException("order is not paid");
 
-
         List<Long> productIds = orderClient.getProductIds(reviewRequest.orderId());
-        for(int i = 0; i < productIds.size(); i++){
-            Optional<ProductReview> productReview= productReviewRepository.findById(productIds.get(i));
-            if(productReview.isEmpty())
-                productReviewRepository.save(new ProductReview(productIds.get(i), reviewRequest.star(),1));
-            else{
-               int reviewTimes = productReview.get().getReviewTimesOfProduct();
-               double averageStar = productReview.get().getProductAverageStar();
-               double totalStar = reviewTimes * averageStar + reviewRequest.star();
-               reviewTimes += 1;
-               double lastAverageStar = totalStar/ reviewTimes;
+        for (int i = 0; i < productIds.size(); i++) {
+            Optional<ProductReview> productReview = productReviewRepository.findById(productIds.get(i));
+            if (productReview.isEmpty())
+                productReviewRepository.save(new ProductReview(productIds.get(i), reviewRequest.star(), 1));
+            else {
+                int reviewTimes = productReview.get().getReviewTimesOfProduct();
+                double averageStar = productReview.get().getProductAverageStar();
+                double totalStar = reviewTimes * averageStar + reviewRequest.star();
+                reviewTimes += 1;
+                double lastAverageStar = totalStar / reviewTimes;
                 productReview.get().setReviewTimesOfProduct(reviewTimes);
                 productReview.get().setProductAverageStar(lastAverageStar);
                 productReviewRepository.save(productReview.get());
             }
         }
-        repository.save(new OrderReview(reviewRequest.orderId(),reviewRequest.reviewBody(),reviewRequest.star()));
+        repository.save(new OrderReview(reviewRequest.orderId(), reviewRequest.reviewBody(), reviewRequest.star()));
     }
 
     @GetMapping("/rating")
-    public double getProductRatingById(Long productId){
+    public double getProductRatingById(Long productId) {
         Optional<ProductReview> productReview = productReviewRepository.findById(productId);
         return productReview.map(ProductReview::getProductAverageStar).orElse(0.0);
     }
 
     private boolean controlOrderIsPaid(int orderId) {
-       return orderClient.isOrderPaid(orderId);
+        return orderClient.isOrderPaid(orderId);
     }
 }

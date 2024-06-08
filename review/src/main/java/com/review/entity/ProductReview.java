@@ -18,5 +18,4 @@ public class ProductReview {
     long productId;
     double productAverageStar;
     int reviewTimesOfProduct;
-
 }

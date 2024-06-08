@@ -20,6 +20,6 @@ public class UserCards {
     private String cardExpiryYear;
     private Long balance;
 
-    @ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private UserCredential userCredential;
 }

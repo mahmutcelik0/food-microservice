@@ -14,6 +14,6 @@ public class PaymentApi {
 
     @PostMapping
     public ResponseEntity<?> makePayment(@RequestBody PaymentRequest paymentRequest, @RequestHeader String userEmail) {
-        return paymentService.makePayment(paymentRequest,userEmail);
+        return paymentService.makePayment(paymentRequest, userEmail);
     }
 }

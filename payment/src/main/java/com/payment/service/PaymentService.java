@@ -22,7 +22,7 @@ public class PaymentService {
 
     public ResponseEntity<?> makePayment(PaymentRequest paymentRequest, String userEmail) {
         OrderResponse orderResponse = orderClient.getOrderByOrderId(paymentRequest.getOrderId(), userEmail);
-        if(orderResponse.isPaid()) return ResponseEntity.internalServerError().body("Order already paid");
+        if (orderResponse.isPaid()) return ResponseEntity.internalServerError().body("Order already paid");
         try {
             Long userId = userClient.deductMoneyFromCardAndGetUserId(DeductRequest.
                     builder()

@@ -12,7 +12,6 @@ public class FeignConfig {
 
     @Bean
     public Decoder feignDecoder() {
-
         ObjectFactory<HttpMessageConverters> messageConverters = () -> {
             HttpMessageConverters converters = new HttpMessageConverters();
             return converters;

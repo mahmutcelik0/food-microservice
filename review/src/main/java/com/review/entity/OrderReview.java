@@ -13,11 +13,8 @@ public class OrderReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private int orderId;
-
     private String reviewBody;
-
     private int star;
 
     public OrderReview(int orderId, String reviewBody, int star) {

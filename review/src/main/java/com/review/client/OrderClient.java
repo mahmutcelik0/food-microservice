@@ -10,8 +10,6 @@ import java.util.List;
 
 @FeignClient(name = "orders", url = "http://localhost:8071/api/v1/orders")
 public interface OrderClient {
-
-
     @GetMapping("/productIds")
     List<Long> getProductIds(@RequestParam("orderId") long orderId);
 

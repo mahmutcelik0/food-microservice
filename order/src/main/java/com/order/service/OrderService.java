@@ -104,19 +104,19 @@ public class OrderService {
         return productService.getOrderCountByProductId(productId);
     }
 
-    public List<Long> getProductIdsOfOrder(Long orderId){
+    public List<Long> getProductIdsOfOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow();
         return order.getProductList().stream().map(Product::getProductId).collect(Collectors.toList());
     }
 
     public void setOrderAsPaid(Long orderId) throws OrderNotFoundException {
-        Order order = orderRepository.findById(orderId).orElseThrow(()-> new OrderNotFoundException(CustomResponseMessages.ORDER_NOT_FOUND));
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(CustomResponseMessages.ORDER_NOT_FOUND));
         order.setPaid(true);
         orderRepository.save(order);
     }
 
-    public boolean isOrderPaid(Long orderId){
-        Order order = orderRepository.findById(orderId).orElseThrow(()-> new OrderNotFoundException(CustomResponseMessages.ORDER_NOT_FOUND));
+    public boolean isOrderPaid(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(CustomResponseMessages.ORDER_NOT_FOUND));
         return order.isPaid();
     }
 }

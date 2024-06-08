@@ -17,11 +17,8 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @DateTimeFormat
     private Date paymentDate;
-
     private Long orderId;
-
     private Long userId;
 }

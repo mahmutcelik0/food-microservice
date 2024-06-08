@@ -36,10 +36,12 @@ public class UserCardService {
                 deductRequest.getCvv(),
                 deductRequest.getCardExpiryMonth(),
                 deductRequest.getCardExpiryYear()
-        ).orElseThrow(()->new CardNotFoundException("Card not found"));
-        if(!userCards.getUserCredential().getEmail().equalsIgnoreCase(userEmail)) throw new MissMatchException("Card does not belong this user");
-        else if(userCards.getBalance()< deductRequest.getAmount()) throw new InsufficientBalanceException("Insufficient balance!");
-        userCards.setBalance(userCards.getBalance()-deductRequest.getAmount());
+        ).orElseThrow(() -> new CardNotFoundException("Card not found"));
+        if (!userCards.getUserCredential().getEmail().equalsIgnoreCase(userEmail))
+            throw new MissMatchException("Card does not belong this user");
+        else if (userCards.getBalance() < deductRequest.getAmount())
+            throw new InsufficientBalanceException("Insufficient balance!");
+        userCards.setBalance(userCards.getBalance() - deductRequest.getAmount());
         userCardRepository.save(userCards);
     }
 }

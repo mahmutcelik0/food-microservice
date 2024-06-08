@@ -20,7 +20,6 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 public class AuthConfig {
 
-
     private final JwtAuthenticationEntryPoint handler;
     private static final String[] WHITE_LIST_URL = {
             // -- Swagger UI v2
@@ -46,10 +45,9 @@ public class AuthConfig {
     };
 
     @Bean
-    public UserDetailsService userDetailsService(){
+    public UserDetailsService userDetailsService() {
         return new CustomUserDetailsService();
     }
-
 
 
     @Bean
@@ -74,8 +72,8 @@ public class AuthConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider authenticationProvider=new DaoAuthenticationProvider();
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;

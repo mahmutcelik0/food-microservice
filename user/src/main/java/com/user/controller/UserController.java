@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @PostMapping("/users/cards/deduct")
-    public Long deductMoneyFromCardAndGetUserId(@RequestBody DeductRequest deductRequest,@RequestHeader String userEmail) throws MissMatchException, InsufficientBalanceException, UserNotFoundException, CardNotFoundException {
-        return service.deductMoneyFromCardAndGetUserId(deductRequest,userEmail);
+    public Long deductMoneyFromCardAndGetUserId(@RequestBody DeductRequest deductRequest, @RequestHeader String userEmail) throws MissMatchException, InsufficientBalanceException, UserNotFoundException, CardNotFoundException {
+        return service.deductMoneyFromCardAndGetUserId(deductRequest, userEmail);
     }
 }

@@ -24,8 +24,8 @@ public class AuthService {
     public String saveUser(RegisterRequest registerRequest) {
         registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         try {
-            userCredentialRepository.save(new UserCredential(registerRequest.getFullName(),registerRequest.getEmail(),registerRequest.getPassword()));
-        }catch (DataIntegrityViolationException ex){
+            userCredentialRepository.save(new UserCredential(registerRequest.getFullName(), registerRequest.getEmail(), registerRequest.getPassword()));
+        } catch (DataIntegrityViolationException ex) {
             throw new NotUniqueEmailException();
         }
         return "user added to the system";
@@ -36,22 +36,22 @@ public class AuthService {
     }
 
     public String validateToken(String token) {
-         return jwtService.validateToken(token);
+        return jwtService.validateToken(token);
     }
 
     public UserResponse getUser(String email) {
-        UserCredential user = userCredentialRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("User not found"));
-        return new UserResponse(user.getId(),user.getFullName(),user.getEmail());
+        UserCredential user = userCredentialRepository.findByEmail(email).orElseThrow(() -> new RuntimeException("User not found"));
+        return new UserResponse(user.getId(), user.getFullName(), user.getEmail());
     }
 
     public ResponseEntity<String> addCardToUser(CardRequest cardRequest, String authHeader) throws UserNotFoundException {
-        UserCredential user = userCredentialRepository.findByEmail(validateToken(authHeader)).orElseThrow(()-> new UserNotFoundException("User not found"));
-        return userCardService.addCardToUser(cardRequest,user);
+        UserCredential user = userCredentialRepository.findByEmail(validateToken(authHeader)).orElseThrow(() -> new UserNotFoundException("User not found"));
+        return userCardService.addCardToUser(cardRequest, user);
     }
 
     public Long deductMoneyFromCardAndGetUserId(DeductRequest deductRequest, String userEmail) throws MissMatchException, InsufficientBalanceException, UserNotFoundException, CardNotFoundException {
-        UserCredential user = userCredentialRepository.findByEmail(userEmail).orElseThrow(()-> new UserNotFoundException("User not found"));
-        userCardService.deductMoneyFromCard(deductRequest,userEmail);
+        UserCredential user = userCredentialRepository.findByEmail(userEmail).orElseThrow(() -> new UserNotFoundException("User not found"));
+        userCardService.deductMoneyFromCard(deductRequest, userEmail);
         return (long) user.getId();
     }
 }

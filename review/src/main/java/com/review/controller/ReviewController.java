@@ -12,13 +12,12 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping
-    public void saveReview(@RequestBody CreateReviewRequest reviewRequest){
+    public void saveReview(@RequestBody CreateReviewRequest reviewRequest) {
         reviewService.saveReview(reviewRequest);
     }
 
     @GetMapping("/rating")
-    public double getProductRatingById(@RequestParam Long productId){
-       return reviewService.getProductRatingById(productId);
+    public double getProductRatingById(@RequestParam Long productId) {
+        return reviewService.getProductRatingById(productId);
     }
-
 }

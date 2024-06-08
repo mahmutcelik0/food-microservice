@@ -9,11 +9,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ProductDtoPopulator extends AbstractPopulator<Product,ProductDto> {
+public class ProductDtoPopulator extends AbstractPopulator<Product, ProductDto> {
     private final TagDtoPopulator tagDtoPopulator;
     private final CategoryDtoPopulator categoryDtoPopulator;
     private final OrderClient orderClient;
     private final ReviewClient reviewClient;
+
     @Override
     public ProductDto populate(Product product, ProductDto productDto) {
         productDto.setId(product.getId());

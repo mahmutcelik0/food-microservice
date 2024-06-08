@@ -20,7 +20,7 @@ public class UserCredential {
     private String email;
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "userCredential")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userCredential")
     public List<UserCards> userCards;
 
     public UserCredential(String fullName, String email, String password) {

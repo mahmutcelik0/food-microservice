@@ -1,7 +1,5 @@
 package com.order.controller;
 
-import com.order.entity.Order;
-import com.order.entity.Product;
 import com.order.exception.OrderNotFoundException;
 import com.order.model.request.OrderRequest;
 import com.order.model.response.OrderResponse;
