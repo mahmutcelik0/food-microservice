@@ -71,6 +71,7 @@ public class OrderService {
                 .productResponseList(productResponseList)
                 .totalPrice(order.getTotalPrice())
                 .userResponse(userResponse)
+                .isPaid(order.isPaid())
                 .build();
     }
 
@@ -100,5 +101,11 @@ public class OrderService {
 
     public Long getOrderCountByProductId(Long productId) {
         return productService.getOrderCountByProductId(productId);
+    }
+
+    public void setOrderAsPaid(Long orderId) throws OrderNotFoundException {
+        Order order = orderRepository.findById(orderId).orElseThrow(()-> new OrderNotFoundException(CustomResponseMessages.ORDER_NOT_FOUND));
+        order.setPaid(true);
+        orderRepository.save(order);
     }
 }

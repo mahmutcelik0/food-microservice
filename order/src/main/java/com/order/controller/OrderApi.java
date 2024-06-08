@@ -21,7 +21,6 @@ public class OrderApi {
         return "hello from" + userEmail;
     }
 
-
     @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest,@RequestHeader String userEmail){
         return orderService.createOrder(orderRequest,userEmail);
@@ -30,6 +29,11 @@ public class OrderApi {
     @GetMapping("/order")
     public OrderResponse getOrderByOrderId(@RequestParam Long orderId,@RequestHeader String userEmail) throws OrderNotFoundException {
         return orderService.getOrderByOrderId(orderId,userEmail);
+    }
+
+    @GetMapping("/order/paid")
+    public void setOrderAsPaid(@RequestParam Long orderId) throws OrderNotFoundException {
+        orderService.setOrderAsPaid(orderId);
     }
 
     @GetMapping("/restaurant")

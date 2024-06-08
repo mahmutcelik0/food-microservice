@@ -26,5 +26,6 @@ public class Order {
 
     private Long totalPrice;
     private Long userId;
+    private boolean isPaid;
 
 }

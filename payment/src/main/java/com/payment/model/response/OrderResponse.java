@@ -1,6 +1,9 @@
-package com.order.model.response;
+package com.payment.model.response;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -8,7 +11,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class OrderResponse {
     private Long orderId;
     private RestaurantResponse restaurantResponse;
