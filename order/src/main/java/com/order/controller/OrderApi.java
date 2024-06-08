@@ -53,5 +53,9 @@ public class OrderApi {
         return orderService.getProductIdsOfOrder(orderId);
     }
 
+    @GetMapping("/isOrderPaid")
+    public boolean isOrderPaid(@RequestParam Long orderId){
+        return orderService.isOrderPaid(orderId);
+    }
 
 }

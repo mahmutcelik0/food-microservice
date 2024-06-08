@@ -14,4 +14,7 @@ public interface OrderClient {
 
     @GetMapping("/productIds")
     List<Long> getProductIds(@RequestParam("orderId") long orderId);
+
+    @GetMapping("/isOrderPaid")
+    boolean isOrderPaid(@RequestParam("orderId") long orderId);
 }
