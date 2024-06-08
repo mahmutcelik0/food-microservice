@@ -114,4 +114,9 @@ public class OrderService {
         order.setPaid(true);
         orderRepository.save(order);
     }
+
+    public boolean isOrderPaid(Long orderId){
+        Order order = orderRepository.findById(orderId).orElseThrow(()-> new OrderNotFoundException(CustomResponseMessages.ORDER_NOT_FOUND));
+        return order.isPaid();
+    }
 }

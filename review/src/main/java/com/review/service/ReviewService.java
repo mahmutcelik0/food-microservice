@@ -19,6 +19,9 @@ public class ReviewService {
     private final ProductReviewRepository productReviewRepository;
     private final OrderClient orderClient;
     public void saveReview(CreateReviewRequest reviewRequest){
+        if(!controlOrderIsPaid(reviewRequest.orderId()))
+            throw new RuntimeException("order is not paid");
+
 
         List<Long> productIds = orderClient.getProductIds(reviewRequest.orderId());
         for(int i = 0; i < productIds.size(); i++){
@@ -37,5 +40,9 @@ public class ReviewService {
             }
         }
         repository.save(new OrderReview(reviewRequest.orderId(),reviewRequest.reviewBody(),reviewRequest.star()));
+    }
+
+    private boolean controlOrderIsPaid(int orderId) {
+       return orderClient.isOrderPaid(orderId);
     }
 }
