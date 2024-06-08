@@ -16,5 +16,9 @@ public class ReviewController {
         reviewService.saveReview(reviewRequest);
     }
 
+    @GetMapping("/rating")
+    public double getProductRatingById(@RequestParam Long productId){
+       return reviewService.getProductRatingById(productId);
+    }
 
 }

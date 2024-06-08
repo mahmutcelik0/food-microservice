@@ -8,6 +8,8 @@ import com.review.repository.OrderReviewRepository;
 import com.review.repository.ProductReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,12 @@ public class ReviewService {
             }
         }
         repository.save(new OrderReview(reviewRequest.orderId(),reviewRequest.reviewBody(),reviewRequest.star()));
+    }
+
+    @GetMapping("/rating")
+    public double getProductRatingById(Long productId){
+        Optional<ProductReview> productReview = productReviewRepository.findById(productId);
+        return productReview.map(ProductReview::getProductAverageStar).orElse(0.0);
     }
 
     private boolean controlOrderIsPaid(int orderId) {
