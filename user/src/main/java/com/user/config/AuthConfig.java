@@ -36,7 +36,6 @@ public class AuthConfig {
             "/auth/register",
             "/auth/validate",
             "/auth/login",
-            "/auth/hello",
             "/auth/email/**",
             "/auth/users/cards/**",
             "/h2/**",

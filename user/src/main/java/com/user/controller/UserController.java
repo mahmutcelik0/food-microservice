@@ -22,11 +22,6 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/hello")
-    public String hello() {
-        return "hello from user";
-    }
-
     @PostMapping("/register")
     public String addNewUser(@Valid @RequestBody RegisterRequest registerRequest) {
         return service.saveUser(registerRequest);
