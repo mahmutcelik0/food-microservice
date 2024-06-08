@@ -37,8 +37,8 @@ public class OrderApi {
     }
 
     @GetMapping("/restaurant")
-    public List<OrderResponse> getOrdersOfRestaurantById(@RequestParam Long restaurantId,@RequestHeader String userEmail){
-        return orderService.getOrdersOfRestaurantById(restaurantId,userEmail);
+    public List<OrderResponse> getOrdersOfRestaurantById(@RequestParam Long restaurantId){
+        return orderService.getOrdersOfRestaurantById(restaurantId);
     }
 
     @GetMapping("/count/{productId}")
@@ -54,6 +54,11 @@ public class OrderApi {
     @GetMapping("/isOrderPaid")
     public boolean isOrderPaid(@RequestParam Long orderId){
         return orderService.isOrderPaid(orderId);
+    }
+
+    @GetMapping("/restaurant/{restaurantId}")
+    public List<OrderResponse> getPaidOrdersOfRestaurant(@PathVariable Long restaurantId){
+        return orderService.getPaidOrdersOfRestaurant(restaurantId);
     }
 
 }

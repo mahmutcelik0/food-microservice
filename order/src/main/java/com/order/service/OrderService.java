@@ -76,20 +76,10 @@ public class OrderService {
                 .build();
     }
 
-    public List<OrderResponse> getOrdersOfRestaurantById(Long restaurantId, String userEmail) {
+    public List<OrderResponse> getOrdersOfRestaurantById(Long restaurantId) {
         List<Order> orderList = orderRepository.findOrdersByRestaurantId(restaurantId);
 
-        return orderList.stream().map(e -> {
-                    OrderResponse orderResponse = OrderResponse.builder()
-                            .orderId(e.getId())
-                            .restaurantResponse(restaurantClient.getById(e.getRestaurantId()))
-                            .productResponseList(productClient.getAllById(e.getProductList().stream().map(Product::getId).toList()))
-                            .totalPrice(e.getTotalPrice())
-                            .build();
-                    setCount(orderResponse.getProductResponseList(), e);
-                    return orderResponse;
-                }
-        ).toList();
+        return getOrderResponses(orderList);
     }
 
     private static void setCount(List<ProductResponse> productResponseList, Order order) {
@@ -118,5 +108,23 @@ public class OrderService {
     public boolean isOrderPaid(Long orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(CustomResponseMessages.ORDER_NOT_FOUND));
         return order.isPaid();
+    }
+
+    public List<OrderResponse> getPaidOrdersOfRestaurant(Long restaurantId) {
+        return getOrderResponses(orderRepository.findOrdersByRestaurantId(restaurantId).stream().filter(Order::isPaid).toList());
+    }
+
+    private List<OrderResponse> getOrderResponses(List<Order> orderList) {
+        return orderList.stream().map(e -> {
+                    OrderResponse orderResponse = OrderResponse.builder()
+                            .orderId(e.getId())
+                            .restaurantResponse(restaurantClient.getById(e.getRestaurantId()))
+                            .productResponseList(productClient.getAllById(e.getProductList().stream().map(Product::getId).toList()))
+                            .totalPrice(e.getTotalPrice())
+                            .build();
+                    setCount(orderResponse.getProductResponseList(), e);
+                    return orderResponse;
+                }
+        ).toList();
     }
 }

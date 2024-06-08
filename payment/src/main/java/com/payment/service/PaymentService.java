@@ -6,12 +6,14 @@ import com.payment.entity.Payment;
 import com.payment.model.request.DeductRequest;
 import com.payment.model.request.PaymentRequest;
 import com.payment.model.response.OrderResponse;
+import com.payment.model.response.PaymentResponse;
 import com.payment.repository.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +22,7 @@ public class PaymentService {
     private final OrderClient orderClient;
     private final UserClient userClient;
 
-    public ResponseEntity<?> makePayment(PaymentRequest paymentRequest, String userEmail) {
+    public ResponseEntity<String> makePayment(PaymentRequest paymentRequest, String userEmail) {
         OrderResponse orderResponse = orderClient.getOrderByOrderId(paymentRequest.getOrderId(), userEmail);
         if (orderResponse.isPaid()) return ResponseEntity.internalServerError().body("Order already paid");
         try {
@@ -41,5 +43,18 @@ public class PaymentService {
         }
 
         return ResponseEntity.ok("Payment done successfully");
+    }
+
+    public List<PaymentResponse> getPaymentsOfRestaurant(String restaurantId) {
+        List<OrderResponse> orderResponseList = orderClient.getPaidOrdersOfRestaurant(restaurantId);
+        return orderResponseList.stream().map(e -> {
+            Payment payment = paymentRepository.findPaymentByOrderId(e.getOrderId()).orElseThrow(() -> new RuntimeException("Order not found"));
+            return PaymentResponse.builder()
+                    .userResponse(e.getUserResponse())
+                    .totalPrice(e.getTotalPrice())
+                    .productResponseList(e.getProductResponseList())
+                    .orderId(payment.getOrderId())
+                    .paymentDate(payment.getPaymentDate()).build();
+        }).toList();
     }
 }
