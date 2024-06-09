@@ -1,9 +1,6 @@
 package com.user.service;
 
-import com.user.dto.CardRequest;
-import com.user.dto.DeductRequest;
-import com.user.dto.RegisterRequest;
-import com.user.dto.UserResponse;
+import com.user.dto.*;
 import com.user.entity.UserCredential;
 import com.user.exception.*;
 import com.user.repository.UserCredentialRepository;
@@ -21,14 +18,14 @@ public class AuthService {
     private final JwtService jwtService;
     private final UserCardService userCardService;
 
-    public String saveUser(RegisterRequest registerRequest) {
+    public MessageResponse saveUser(RegisterRequest registerRequest) {
         registerRequest.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         try {
             userCredentialRepository.save(new UserCredential(registerRequest.getFullName(), registerRequest.getEmail(), registerRequest.getPassword()));
         } catch (DataIntegrityViolationException ex) {
             throw new NotUniqueEmailException();
         }
-        return "user added to the system";
+        return new MessageResponse("user added to the system");
     }
 
     public String generateToken(String username) {
