@@ -4,9 +4,12 @@ import com.order.client.ProductClient;
 import com.order.client.RestaurantClient;
 import com.order.client.UserClient;
 import com.order.constants.OrderConstants;
+import com.order.dto.OrderDto;
 import com.order.entity.Order;
 import com.order.entity.Product;
+import com.order.exception.OrderNotCreatedException;
 import com.order.exception.OrderNotFoundException;
+import com.order.exception.RestaurantNotExistException;
 import com.order.model.CustomResponseMessages;
 import com.order.model.ResponseMessage;
 import com.order.model.request.OrderRequest;
@@ -15,6 +18,7 @@ import com.order.model.response.OrderResponse;
 import com.order.model.response.ProductResponse;
 import com.order.model.response.RestaurantResponse;
 import com.order.model.response.UserResponse;
+import com.order.populator.OrderDtoPopulator;
 import com.order.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -33,14 +37,15 @@ public class OrderService {
     private final ProductClient productClient;
     private final UserClient userClient;
     private final ProductService productService;
+    private final OrderDtoPopulator orderDtoPopulator;
 
-    public ResponseEntity<ResponseMessage> createOrder(OrderRequest orderRequest, String userEmail) {
+    public OrderDto createOrder(OrderRequest orderRequest, String userEmail) throws RestaurantNotExistException, OrderNotCreatedException {
         if (restaurantClient.existById(orderRequest.getRestaurantId()))
-            return ResponseEntity.internalServerError().body(new ResponseMessage(CustomResponseMessages.RESTAURANT_DOES_NOT_EXISTS, HttpStatus.INTERNAL_SERVER_ERROR));
+            throw new RestaurantNotExistException(CustomResponseMessages.RESTAURANT_DOES_NOT_EXISTS);
         List<ProductResponse> productResponse = productClient.getAllById(orderRequest.getProductList().stream().map(ProductRequest::getProductId).toList());
         UserResponse userResponse = userClient.getUser(userEmail);
         if (!checkOrderPrice(productResponse, orderRequest.getTotalPrice(), orderRequest.getProductList()))
-            return ResponseEntity.internalServerError().body(new ResponseMessage(CustomResponseMessages.ORDER_NOT_CREATED, HttpStatus.INTERNAL_SERVER_ERROR));
+            throw new OrderNotCreatedException(CustomResponseMessages.ORDER_NOT_CREATED);
         Order order = Order.builder()
                 .restaurantId(orderRequest.getRestaurantId())
                 .productList(orderRequest.getProductList().stream().map(e -> Product.builder().productId(e.getProductId()).count(e.getCount()).build()).toList())
@@ -48,9 +53,8 @@ public class OrderService {
                 .totalPrice(orderRequest.getTotalPrice())
                 .build();
         order.setProductList(orderRequest.getProductList().stream().map(e -> Product.builder().order(order).productId(e.getProductId()).count(e.getCount()).build()).toList());
-        orderRepository.save(order);
-
-        return ResponseEntity.ok(new ResponseMessage(CustomResponseMessages.ORDER_CREATED, HttpStatus.OK));
+        ;
+        return orderDtoPopulator.populate(orderRepository.save(order));
     }
 
     private boolean checkOrderPrice(List<ProductResponse> productResponse, Long totalPrice, List<ProductRequest> productList) {

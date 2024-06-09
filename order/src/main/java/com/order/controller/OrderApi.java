@@ -1,11 +1,13 @@
 package com.order.controller;
 
+import com.order.dto.OrderDto;
+import com.order.exception.OrderNotCreatedException;
 import com.order.exception.OrderNotFoundException;
+import com.order.exception.RestaurantNotExistException;
 import com.order.model.request.OrderRequest;
 import com.order.model.response.OrderResponse;
 import com.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +19,7 @@ public class OrderApi {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody OrderRequest orderRequest,@RequestHeader String userEmail){
+    public OrderDto createOrder(@RequestBody OrderRequest orderRequest, @RequestHeader String userEmail) throws OrderNotCreatedException, RestaurantNotExistException {
         return orderService.createOrder(orderRequest,userEmail);
     }
 
