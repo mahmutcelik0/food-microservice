@@ -22,4 +22,5 @@ public class ProductDto {
     private CategoryDto category;
     private Long orderCount;
     private double productRating;
+    private Long stock;
 }

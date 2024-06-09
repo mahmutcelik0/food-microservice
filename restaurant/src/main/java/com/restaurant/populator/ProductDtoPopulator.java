@@ -27,6 +27,7 @@ public class ProductDtoPopulator extends AbstractPopulator<Product, ProductDto> 
         productDto.setCategory(categoryDtoPopulator.populate(product.getCategory()));
         productDto.setOrderCount(orderClient.getOrderCountByProductId(product.getId()));
         productDto.setProductRating(reviewClient.getProductRating(product.getId()));
+        productDto.setStock(product.getStock());
         return productDto;
     }
 
