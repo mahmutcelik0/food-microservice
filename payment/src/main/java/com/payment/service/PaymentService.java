@@ -5,6 +5,7 @@ import com.payment.client.UserClient;
 import com.payment.entity.Payment;
 import com.payment.model.request.DeductRequest;
 import com.payment.model.request.PaymentRequest;
+import com.payment.model.response.MessageResponse;
 import com.payment.model.response.OrderResponse;
 import com.payment.model.response.PaymentResponse;
 import com.payment.repository.PaymentRepository;
@@ -22,9 +23,9 @@ public class PaymentService {
     private final OrderClient orderClient;
     private final UserClient userClient;
 
-    public ResponseEntity<String> makePayment(PaymentRequest paymentRequest, String userEmail) {
+    public ResponseEntity<MessageResponse> makePayment(PaymentRequest paymentRequest, String userEmail) {
         OrderResponse orderResponse = orderClient.getOrderByOrderId(paymentRequest.getOrderId(), userEmail);
-        if (orderResponse.isPaid()) return ResponseEntity.internalServerError().body("Order already paid");
+        if (orderResponse.isPaid()) return ResponseEntity.internalServerError().body(new MessageResponse("Order already paid"));
         try {
             Long userId = userClient.deductMoneyFromCardAndGetUserId(DeductRequest.
                     builder()
@@ -39,10 +40,10 @@ public class PaymentService {
             orderClient.setOrderAsPaid(paymentRequest.getOrderId());
             paymentRepository.save(payment);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            return ResponseEntity.internalServerError().body(new MessageResponse(e.getMessage()));
         }
 
-        return ResponseEntity.ok("Payment done successfully");
+        return ResponseEntity.ok(new MessageResponse("Payment done successfully"));
     }
 
     public List<PaymentResponse> getPaymentsOfRestaurant(String restaurantId) {

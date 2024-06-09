@@ -1,6 +1,7 @@
 package com.payment.controller;
 
 import com.payment.model.request.PaymentRequest;
+import com.payment.model.response.MessageResponse;
 import com.payment.model.response.PaymentResponse;
 import com.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class PaymentApi {
     private final PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<String> makePayment(@RequestBody PaymentRequest paymentRequest, @RequestHeader String userEmail) {
+    public ResponseEntity<MessageResponse> makePayment(@RequestBody PaymentRequest paymentRequest, @RequestHeader String userEmail) {
         return paymentService.makePayment(paymentRequest, userEmail);
     }
 
