@@ -13,11 +13,11 @@ public class OrderReview {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int orderId;
+    private Long orderId;
     private String reviewBody;
     private int star;
 
-    public OrderReview(int orderId, String reviewBody, int star) {
+    public OrderReview(Long orderId, String reviewBody, int star) {
         this.orderId = orderId;
         this.reviewBody = reviewBody;
         this.star = star;

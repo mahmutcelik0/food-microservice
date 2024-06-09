@@ -131,4 +131,8 @@ public class OrderService {
                 }
         ).toList();
     }
+
+    public List<Long> getUsersOrderIds(Long userId){
+        return orderRepository.findByUserId(userId).stream().map(Order::getId).collect(Collectors.toList());
+    }
 }

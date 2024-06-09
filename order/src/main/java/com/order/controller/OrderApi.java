@@ -58,4 +58,9 @@ public class OrderApi {
         return orderService.getPaidOrdersOfRestaurant(restaurantId);
     }
 
+    @GetMapping("/IdsByUserId")
+    public List<Long> getUsersOrderIds(@RequestParam Long userId){
+        return orderService.getUsersOrderIds(userId);
+    }
+
 }

@@ -1,4 +1,4 @@
 package com.review.dto;
 
-public record CreateReviewRequest(int orderId, String reviewBody, int star) {
+public record CreateReviewRequest(long orderId, String reviewBody, int star) {
 }
