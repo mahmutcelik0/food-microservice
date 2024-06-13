@@ -356,5 +356,5 @@ REVIEW
 | star | int |
 - **Servis Ekran Görüntüleri**
 
-- ![](images/13.png)
-- 
+![](images/13.png)
+  
