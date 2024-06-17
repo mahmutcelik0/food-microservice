@@ -59,7 +59,7 @@ public class AuthConfig {
         );
 
         http.httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(handler));
-
+        http.cors(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
         http.headers(AbstractHttpConfigurer::disable);
         return http.build();
