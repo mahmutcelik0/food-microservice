@@ -28,9 +28,9 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String getToken(@RequestBody LoginRequest loginRequest) {
+    public TokenResponse getToken(@RequestBody LoginRequest loginRequest) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        return service.generateToken(loginRequest.getEmail());
+        return new TokenResponse(service.generateToken(loginRequest.getEmail()));
     }
 
     @GetMapping("/validate")
